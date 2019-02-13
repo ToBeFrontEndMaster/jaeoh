@@ -52,7 +52,11 @@ WWW에서의 웹페이지는 정적(Static), 동적(dynamic) 및 액티브(activ
 
 동적 페이지는 브라우저에서 페이지를 요청할 때마다 웹서버에 의해서 생성됩니다. 요청이 들어오면 웹 서버는 동적 문서를 만드는 응용 프로그램이나 스크립트를 수행합니다. 서버는 프로그램의 출력이나 스크립트를 그 문서를 요청한 브라우저에게 응답으로 반환합니다. 각 요청에 대해 새로운 문서가 생성되기 때문에 동적 문서의 내용은 각각의 요청마다 달라질 수 있습니다.
 
-동적 문서의 예는 네이버나, 구글 홈페이지에서 로그인하면 서버로부터 사용자의 이름, 기타 등등 정보를 받는 것입니다. 동적 페이지에서는 CGI를 빼놓고 이야기 할 수 없습니다.
+동적 문서의 예는 네이버나, 구글 홈페이지에서 로그인하면 서버로부터 사용자의 이름, 기타 등등 정보를 받는 것입니다.
+
+**CGI**
+
+동적 페이지에서는 CGI를 빼놓고 이야기 할 수 없습니다.
 
 공통 게이트웨이 인터페이스(CGI: Common Gateway Interface)는 동적 문서를 생성하고 처리하는 기술입니다. CGI는 동적 문서가 어떻게 작성되야 하는지 입력 데이터가 어떻게 프로그램에 제공되어야 하는지, 출력 결과가 어떻게 사용되어야 하는지를 정의하는 표준들 입니다.
 CGI는 새로운 언어가 아닌 규약 같은것 입니다. CGI는 언어의 선택은 자유롭게 하되, 따르어야 할 규칙과 용어들의 집합이죠.(개발자가 사용하는 언어에 대해서 제한을 받지 않는다는 뜻입니다!)
@@ -131,22 +135,22 @@ http란?
  ```
  
 **Request Line**
-요청의 첫 줄은 Request Line이라고 부르는데 스펙상은 Method SP Request-URI SP HTTP-Version CRLF 와 같이 정의하는데 보통 다은과 같이 생겼다.
+요청의 첫 줄은 Request Line이라고 부르고, 스펙상은 Method SP Request-URI SP HTTP-Version CRLF 와 같이 정의하는데 보통 다은과 같이 생겼다.
 > GET /index.html HTTP/1.1
 맨 앞의 GET은 요청 Method를 의미하는데, OPTIONS, GET, HEAD, POST, PUT, DELETE, TRACE, CONNECT, PATCH 9가지가 있다.
 
 
 | Method | Action |
 | :----- | :----- |
-| OPTIONS | 요청 URI에서 사용할 수 있는 HTTP Method를 물어본다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.2) |
-| GET | 요청 URI의 정보를 가져온다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.3) |
-| HEAD | GET 요청에서 body는 제외하고 헤더만 가져온다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.4) |
-| POST | 요청 URI의 리소스의 새로운 정보를 보낸다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.5) |
-| PUT | 요청 URI에 저장될 정보를 보낸다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.6) |
-| DELETE | 요청 URI의 리소스를 삭제한다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.7) |
-| TRACE | 보낸 메세지를 다시 돌려보낸다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.8) |
-| CONNECT | 프록시에 사용하기 위해 예약된 메서드이다. [스펙참고](https://tools.ietf.org/html/rfc2616#section-9.9) |
-| PATCH | partial resource modification 용도.(추가내용) [스펙참고](https://tools.ietf.org/html/rfc5789) |
+| OPTIONS | 요청 URI에서 사용할 수 있는 HTTP Method를 물어본다. [참고](https://tools.ietf.org/html/rfc2616#section-9.2) |
+| GET | 요청 URI의 정보를 가져온다. [참고](https://tools.ietf.org/html/rfc2616#section-9.3) |
+| HEAD | GET 요청에서 body는 제외하고 헤더만 가져온다. [참고](https://tools.ietf.org/html/rfc2616#section-9.4) |
+| POST | 요청 URI의 리소스의 새로운 정보를 보낸다. [참고](https://tools.ietf.org/html/rfc2616#section-9.5) |
+| PUT | 요청 URI에 저장될 정보를 보낸다. [참고](https://tools.ietf.org/html/rfc2616#section-9.6) |
+| DELETE | 요청 URI의 리소스를 삭제한다. [참고](https://tools.ietf.org/html/rfc2616#section-9.7) |
+| TRACE | 보낸 메세지를 다시 돌려보낸다. [참고](https://tools.ietf.org/html/rfc2616#section-9.8) |
+| CONNECT | 프록시에 사용하기 위해 예약된 메서드이다. [참고](https://tools.ietf.org/html/rfc2616#section-9.9) |
+| PATCH | partial resource modification 용도.(추가내용) [참고](https://tools.ietf.org/html/rfc5789) |
 
 ![img](https://t1.daumcdn.net/cfile/tistory/2556184256FA062F0C)
 
@@ -161,10 +165,23 @@ Request Line의 마지막에는 HTTP 버전을 의미한다.
 (각 기호에 대한 정의는 [스펙의 Basic Rule](https://tools.ietf.org/html/rfc2616#section-2.2)에 있다.)
 
 **Headers**
-Request-Line 다은에는 header가 위치하는데 general-header, request-header, entity-header 3가지 종류가 있고 요청에 따라 필요한 헤더만 사용하게 된다.
 
-General Header에는 Cache-Control, Connection, Date, Pragma, Trailer, Transfer-Enco, Upgrade, Via, Warning가 있고 Request Header에는 Accept, Accept-Charset, Accept-Encoding, Accept-Language, Authorization, Expect, From, Host, If-Match, If-Modified-Since, If-None-Match, If-Range, If-Unmodified-Since, Max-Forwards, Proxy-Authorization, Range, Referer, TE, User-Agent등이 있고 Entity Header에는 Allow, Content-Encoding, Content-Language, Content-Length, Content-Location, Content-MD5, Content-Range, Content-Type, Expires, Last-Modified, extension-header가 있다. 헤더는 name : content의 형식이 되는데 content 부분은 각 헤더에 대한 상세 내용을 확인해 보면 되는데 각 값들은 공백이나 탭으로 구분될 수 있고 각 헤더는 CRLF로 구분된다.
+Request-Line 다음에는 header가 위치하는데 
+ - general-header
+ - request-header
+ - entity-header 
 
+3가지 종류가 있고 요청에 따라 필요한 헤더만 사용하게 된다.
+
+```
+General Header에는 Cache-Control, Connection, Date, Pragma, Trailer, Transfer-Enco, Upgrade, Via, Warning가 있고
+
+Request Header에는 Accept, Accept-Charset, Accept-Encoding, Accept-Language, Authorization, Expect, From, Host, If-Match, If-Modified-Since, If-None-Match, If-Range, If-Unmodified-Since, Max-Forwards, Proxy-Authorization, Range, Referer, TE, User-Agent등이 있고
+
+Entity Header에는 Allow, Content-Encoding, Content-Language, Content-Length, Content-Location, Content-MD5, Content-Range, Content-Type, Expires, Last-Modified, extension-header가 있다.
+
+헤더는 name : content의 형식이 되는데 content 부분은 각 헤더에 대한 상세 내용을 확인해 보면 되는데 각 값들은 공백이나 탭으로 구분될 수 있고 각 헤더는 CRLF로 구분된다.
+```
 <br>
 
 ##### Response message
@@ -194,8 +211,11 @@ HTTP 상태코드 | 내용 | 이유
 각 상태코드에 대한 [설명도](https://en.wikipedia.org/wiki/List_of_HTTP_status_codes)
 
 **Headers**
-헤더 부분의 General Header와 Entity Header는 요청부분에서 설명한 것과 동일하고, Response Header는 Accept-Ranges, Age, ETag, Location, Proxy-Authenticate, Retry-After, Server, Vary, WWW-Authenticate가 있다. 
+```
+헤더 부분의 General Header와 Entity Header는 요청부분에서 설명한 것과 동일하고,
 
+Response Header는 Accept-Ranges, Age, ETag, Location, Proxy-Authenticate, Retry-After, Server, Vary, WWW-Authenticate가 있다.
+```
 ***
 ### +
 HTTP는 간단한 프로토콜이므로 그 나름대로의 장점이 있었습니다.
