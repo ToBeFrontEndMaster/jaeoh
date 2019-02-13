@@ -261,6 +261,20 @@ SSL을 사용하면 서버, 클라이언트 모두 암호화된 데이터를 복
             - Update : 수정(PUT)
             - Delete : 삭제(DELETE)
             - Head : header 정보 조회(HEAD)
+- REST의 표현
+  - 다음과 같은 REST API가 있다면, 사용자의 특성에는 이름뿐만 아니라 직업, 나이, 성별 등의 다양한 특성들이 존재한다. 새로운 유저를 입력하는데, 이러한 정보들이 필요하게 되고, 이는 XML이나 JSON, YAML 같은 다양한 표현 언어를 이용하게 된다.
+  ```
+  POST http://www.plugblog.co.kr/users/newuser
+  ```
+  - 이런 HTTP 메소드의 정보 표현 부분을 메서드 Body 혹은 Payload라고 하는데, 이 부분은 여러가지 표현 언어로 정의될 수 있다.
+  ```
+  POST http://www.plugblog.co.kr/users Content-Type: application/json
+
+  {
+      "username" : "newusers",
+      "age" : "20"
+  }
+  ```
 - REST의 장단점
     - 장점
         - HTTP 프로토콜의 인프라를 그대로 사용하므로 REST API 사용을 위한 별도의 인프라를 구축할 필요가 없다.
@@ -342,6 +356,8 @@ SSL을 사용하면 서버, 클라이언트 모두 암호화된 데이터를 복
     - 사내 시스템들도 REST 기반으로 시스템을 분산해 확장성과 재사용성을 높여 유지보수 및 운용을 편리하게 할 수 있다.
     - REST는 HTTP 표준을 기반으로 구현하므로, HTTP를 지원하는 프로그램 언어로 클라이언트, 서버를 구현할 수 있다.
     - 즉, REST API를 제작하면 델파이 클라이언트뿐 아니라 JAVA, C#, 웹 등을 이용해 클라이언트를 제작할 수 있다.
+- REST API 설계 예시
+![img](https://gmlwjd9405.github.io/images/network/restapi-example.png)
 - REST API 설계 기본 규칙
 
     참고 리소스 원형
@@ -408,17 +424,16 @@ SSL을 사용하면 서버, 클라이언트 모두 암호화된 데이터를 복
         ```
         GET : /users/{userid}/devices (일반적으로 소유 ‘has’의 관계를 표현할 때)
         ```
--REST API 설계 예시
-![img](https://gmlwjd9405.github.io/images/network/restapi-example.png)
 
 #### RESTful의 개념
 ![img](https://gmlwjd9405.github.io/images/network/restful.png)
 
 - RESTful이란
     - RESTful은 일반적으로 REST라는 아키텍처를 구현하는 웹 서비스를 위해 사용되는 용어이다.
-        - 'REST API'를 제공하는 웹 서비스를 'RESTful'하다고 할 수 있다.
     - RESTful은 REST를 REST답게 쓰기 위한 방법으로, 누군가가 공식적으로 발표한 것이 아니다.
         - 즉, REST 원리를 따르는 시스템은 RESTful이란 용어로 지칭된다.
+        - REST API의 설계 의도를 정확하게 지켜주는 API를 'RESTful 하다'라고 부른다.
+    - RESTful한 API는 구성요소들의 역할이 명확하게 분리되어 있어야 한다.
 - RESTful의 목적
     - 이해하기 쉽고 사용하기 쉬운 REST API를 만드는 것
     - RESTful한 API를 구현하는 근본적인 목적이 성능 향상에 있는 것이 아니라 일관적인 컨벤션을 통한 API의 이해도 및 호환성을 높이는 것이 주 동기이니, 성능이 중요한 상황에서는 굳이 RESTful한 API를 구현할 필요는 없다.
