@@ -113,8 +113,10 @@ http란?
  </html>
  ```
  <br>
+
 ##### Request message
 클라이언트가 서버에게 보내는 요청 메세지
+
  - 요청 내용
  > GET /images/logo.gif HTTP/1.1
  - 헤더
@@ -164,7 +166,9 @@ Request-Line 다은에는 header가 위치하는데 general-header, request-head
 General Header에는 Cache-Control, Connection, Date, Pragma, Trailer, Transfer-Enco, Upgrade, Via, Warning가 있고 Request Header에는 Accept, Accept-Charset, Accept-Encoding, Accept-Language, Authorization, Expect, From, Host, If-Match, If-Modified-Since, If-None-Match, If-Range, If-Unmodified-Since, Max-Forwards, Proxy-Authorization, Range, Referer, TE, User-Agent등이 있고 Entity Header에는 Allow, Content-Encoding, Content-Language, Content-Length, Content-Location, Content-MD5, Content-Range, Content-Type, Expires, Last-Modified, extension-header가 있다. 헤더는 name : content의 형식이 되는데 content 부분은 각 헤더에 대한 상세 내용을 확인해 보면 되는데 각 값들은 공백이나 탭으로 구분될 수 있고 각 헤더는 CRLF로 구분된다.
 
 <br>
+
 ##### Response message
+
 ```
 Status-Line
 *(( general-header | response-header | entity-header ) CRLF)
@@ -192,6 +196,30 @@ HTTP 상태코드 | 내용 | 이유
 **Headers**
 헤더 부분의 General Header와 Entity Header는 요청부분에서 설명한 것과 동일하고, Response Header는 Accept-Ranges, Age, ETag, Location, Proxy-Authenticate, Retry-After, Server, Vary, WWW-Authenticate가 있다. 
 
+***
+### +
+HTTP는 간단한 프로토콜이므로 그 나름대로의 장점이 있었습니다.
+그러나 암호화 하지 않고 평문으로 통신을 하기 때문에 도청의 위험성이 있고,
+통신 상대를 확인하지 않기 때문에 위장을 통해 통신을 할 수 있고,
+완전성을 증명할 수 없기 때문에 원래 데이터에 대한 변조의 가능성이 있다는 문제점이 있습니다.
+
+예를 들면, 어떤 유저가 로그인을 진행했을 때 HTTP 프로토콜 상에서는 아이디와 비밀번호가 그대로 노출이 됩니다.
+
+그러면 해커는 패킷분석을 통해 유저의 아이디와 비밀번호를 획득할 수가 있고, 이는 큰 문제를 야기합니다.
+즉, 보안에 취약한 프로토콜이죠.
+
+이러한 취약점을 보완한 것이 바로 HTTPS입니다.
+
+HTTPS는 증명서를 통해 서버 또는 클라이언트의 신원을 확인하고, 데이터를 암호화, 인증, 안정성 보호를 할 수 있는 프로토콜입니다.
+
+위의 예에서 HTTP 프로토콜이 아닌 HTTPS 프로토콜을 사용한다면 로그인 과정에서 해커는 암호화된 데이터를 얻을 수 밖에 없으므로, HTTPS를 사용한 사이트는 신뢰성 있는 사이트가 되는 것입니다.
+HTTPS는 완전히 새로운 프로토콜이 아니라, HTTP 통신에 소켓 연결 부분을 SSL Layer로 대체하고 있을 뿐입니다.
+
+HTTP는 직접 TCP와 통신하지만 SSL을 사용하는 경우 HTTP는 SSL과 통신하고 SSL이 TCP와 통신하게 됩니다.
+
+SSL을 사용하면 서버, 클라이언트 모두 암호화된 데이터를 복호화 하는 과정이 필요하기 때문에 자원 소모가 발생하게 됩니다.
+
+따라서 SSL을 사용하면 성능이 조금 느리다는 점이 있지만, 보안이 중요하기 때문에 세계적으로 HTTPS 사용을 권장하고 있습니다.
 ***
 ### 3. REST의 개념
 ![img](https://gmlwjd9405.github.io/images/network/rest.png)
@@ -265,21 +293,22 @@ HTTP 상태코드 | 내용 | 이유
     3. Cacheable(캐시 처리 기능)
         - 웹 표준 HTTP 프로토콜을 그대로 사용하므로 웹에서 사용하는 기존의 인프라를 그대로 활용할 수 있다.
             - 즉, HTTP가 가진 가장 강력한 특징 중 하나인 캐싱 기능을 적용할 수 있다.
-            - HTTP 프로토콜 표준에서 사용하는 Last-Modified 태그나 E-Tag를 이용하면 캐싱 구현이 가능하다.
+            - HTTP 프로토콜 표준에서 사용하는 Last-Modified 태그(문서의 최종 수정일자)나 E-Tag(Entity-Tag:각 버전을 고유하게 나타내는 읽을 수 없는 문자열)를 이용하면 캐싱 구현이 가능하다.
             - 대량의 요청을 효율적으로 처리하기 위해 캐시가 요구된다.
             - 캐시 사용을 통해 응답시간이 빨라지고 REST Server 트랜잭션이 발생하지 않기 때문에 전체 응답시간, 성능, 서버의 자원 이용률을 향상시킬 수 있다.
+            + [http조건부 요청](https://developer.mozilla.org/ko/docs/Web/HTTP/Conditional_requests)
     4. Layered System(계층화)
         - Client는 REST API Server만 호출한다.
             - API Server는 순수 비즈니스 로직을 수행하고 그 앞단에 보안, 로드밸런싱, 암호화, 사용자 인증 등을 추가하여 구조상의 유연성을 줄 수 있다.
             - 또한 로드밸런싱, 공유 캐시 등을 통해 확장성과 보안성을 향상시킬 수 있다.
         - PROXY, 게이트웨이 같은 네트워크 기반의 중간 매체를 사용할 수 있다.
-    5. Code-On-Demand(optional)
-        - Server로부터 스크립트를 받아서 Client에서 실행한다.
-        - 반드시 충족할 필요는 없다.
-    6. Uniform Interface(인터페이스 일관성)
-        - URI로 지정한 Resource에 대한 조작을 통일되고 한정적인 인터페이스로 수행한다.
+    5. Uniform Interface(인터페이스 일관성)
+        - URI로 지정한 Resource에 대한 조작을 통일되고 한정적인 인터페이스로 수행하는 아키텍처 스타일을 말합니다.
         - HTTP 표준 프로토콜에 따르는 모든 플랫폼에서 사용이 가능하다.
             - 특정 언어나 기술에 종속되지 않는다.
+    6. Code-On-Demand(optional)
+        - Server로부터 스크립트를 받아서 Client에서 실행한다.
+        - 반드시 충족할 필요는 없다.
 
 #### REST API의 개념
 ![img](https://gmlwjd9405.github.io/images/network/restapi.png)
@@ -294,49 +323,71 @@ HTTP 상태코드 | 내용 | 이유
     - REST는 HTTP 표준을 기반으로 구현하므로, HTTP를 지원하는 프로그램 언어로 클라이언트, 서버를 구현할 수 있다.
     - 즉, REST API를 제작하면 델파이 클라이언트뿐 아니라 JAVA, C#, 웹 등을 이용해 클라이언트를 제작할 수 있다.
 - REST API 설계 기본 규칙
-참고 리소스 원형
-> - 도큐먼트 : 객체 인스턴스나 DB 레코드와 유사한 개념
-> - 컬렉션 : 서버에서 관리하는 디렉터리라는 리소스
-> - 스토어 : 클라이언트에서 관리하는 리소스 저장소
+
+    참고 리소스 원형
+    > - 도큐먼트 : 객체 인스턴스나 DB 레코드와 유사한 개념
+    > - 컬렉션 : 서버에서 관리하는 디렉터리라는 리소스
+    > - 스토어 : 클라이언트에서 관리하는 리소스 저장소
 
     1. URI는 정보의 자원을 표현해야 한다.
-        ⅰ. resource는 동사보다는 명사를, 대문자보다는 소문자를 사용한다.
-        ⅱ. resource의 도큐먼트 이름으로는 단수 명사를 사용해야 한다.
-        ⅲ. resource의 컬렉션 이름으로는 복수 명사를 사용해야 한다.
-        ⅳ. resource의 스토어 이름으로는 복수 명사를 사용해야 한다.
-            - Ex) GET /Member/1 -> GET /members/1
+        - ⅰ. resource는 동사보다는 명사를, 대문자보다는 소문자를 사용한다.
+        - ⅱ. resource의 도큐먼트 이름으로는 단수 명사를 사용해야 한다.
+        - ⅲ. resource의 컬렉션 이름으로는 복수 명사를 사용해야 한다.
+        - ⅳ. resource의 스토어 이름으로는 복수 명사를 사용해야 한다.
+        ```
+        Ex) GET /Member/1 -> GET /members/1
+        ```
 
     2. 자원에 대한 행위는 HTTP Method로 표현한다.
-        ⅰ. URI에 HTTP Method가 들어가면 안된다.
-            - Ex) GET /member/delete/1 -> DELETE /member/1
-        ⅱ. URI에 행위에 대한 동사 표현이 들어가면 안된다. (즉, CRUD 기능을 나타내는 것은 URI에 사용하지 않는다.)
-            - Ex) GET /member/show/1 -> GET /member/1
-            - Ex) GET /member/insert/2 -> POST /member/2
-        ⅲ. 경로 부분 중 변하는 부분은 유일한 값으로 대체한다. (즉, :id는 하나의 특정 resource를 나타내는 고유값이다.)
-            - Ex) student를 생성하는 route: POST/students
-            - Ex) id=12인 student를 삭제하는 route: DELETE/students/12
+        - ⅰ. URI에 HTTP Method가 들어가면 안된다.
+            ```
+            Ex) GET /member/delete/1 -> DELETE /member/1
+            ```
+        - ⅱ. URI에 행위에 대한 동사 표현이 들어가면 안된다. (즉, CRUD 기능을 나타내는 것은 URI에 사용하지 않는다.)
+            ```
+            Ex) GET /member/show/1 -> GET /member/1
+            Ex) GET /member/insert/2 -> POST /member/2
+            ```
+        - ⅲ. 경로 부분 중 변하는 부분은 유일한 값으로 대체한다. (즉, :id는 하나의 특정 resource를 나타내는 고유값이다.)
+            ```
+            Ex) student를 생성하는 route: POST/students
+            Ex) id=12인 student를 삭제하는 route: DELETE/students/12
+            ```
 - REST API 설계 규칙
     1. 슬래시 구분자(/ )는 계층 관계를 나타내는데 사용한다.
-        Ex) http://restapi.example.com/houses/apartments
+        ```
+        http://restapi.example.com/houses/apartments
+        http://restapi.example.com/animals/mammals/whales
+        ```
     2. URI 마지막 문자로 슬래시(/ )를 포함하지 않는다.
         - URI에 포함되는 모든 글자는 리소스의 유일한 식별자로 사용되어야 하며 URI가 다르다는 것은 리소스가 다르다는 것이고, 역으로 리소스가 다르면 URI도 달라져야 한다.
         - REST API는 분명한 URI를 만들어 통신을 해야 하기 때문에 혼동을 주지 않도록 URI 경로의 마지막에는 슬래시(/)를 사용하지 않는다.
-        - Ex) http://restapi.example.com/houses/apartments/ (X)
+        ```
+        http://restapi.example.com/houses/apartments/ (X)
+        http://restapi.example.com/houses/apartments  (0)
+        ```
     3. 하이픈(- )은 URI 가독성을 높이는데 사용
         - 불가피하게 긴 URI경로를 사용하게 된다면 하이픈을 사용해 가독성을 높인다.
     4. 밑줄(_ )은 URI에 사용하지 않는다.
-        - 밑줄은 보기 어렵거나 밑줄 때문에 문자가 가려지기도 하므로 가독성을 위해 밑줄은 사용하지 않는다.
+        - 밑줄은 보기 어렵거나 밑줄 때문에 문자가 가려지기도 하므로 **가독성**을 위해 밑줄은 사용하지 않는다.
     5. URI 경로에는 소문자가 적합하다.
         - URI 경로에 대문자 사용은 피하도록 한다.
-        - RFC 3986(URI 문법 형식)은 URI 스키마와 호스트를 제외하고는 대소문자를 구별하도록 규정하기 때문
+        - RFC 3986(URI 문법 형식)은 URI 스키마와 호스트를 제외하고는 대소문자를 구별하도록 규정하기 때문입니다.
+        ```
+        RFC 3986 is the URI (Unified Resource Identifier) Syntax document
+        ```
     6. 파일확장자는 URI에 포함하지 않는다.
-        - REST API에서는 메시지 바디 내용의 포맷을 나타내기 위한 파일 확장자를 URI 안에 포함시키지 않는다.
-        - Accept header를 사용한다.
-        - Ex) http://restapi.example.com/members/soccer/345/photo.jpg (X)
-        - Ex) GET / members/soccer/345/photo HTTP/1.1 Host: restapi.example.com Accept: image/jpg (O)
+        - REST API에서는 메시지 바디 내용의 포맷을 나타내기 위한 파일 확장자를 URI 안에 포함시키지 않는다. Accept header를 사용합시다.
+        ```
+         - http://restapi.example.com/members/soccer/345/photo.jpg (X)
+        
+         - GET / members/soccer/345/photo HTTP/1.1 Host: restapi.example.com Accept: image/jpg (O)
+        ```
     7. 리소스 간에는 연관 관계가 있는 경우
         - /리소스명/리소스 ID/관계가 있는 다른 리소스명
-        - Ex) GET : /users/{userid}/devices (일반적으로 소유 ‘has’의 관계를 표현할 때)
+        ```
+        GET : /users/{userid}/devices (일반적으로 소유 ‘has’의 관계를 표현할 때)
+        ```
 -REST API 설계 예시
 ![img](https://gmlwjd9405.github.io/images/network/restapi-example.png)
 
